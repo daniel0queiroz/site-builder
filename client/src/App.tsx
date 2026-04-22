@@ -6,11 +6,13 @@ import Projects from "./pages/Projects";
 import MyProjects from "./pages/MyProjects";
 import Preview from "./pages/Preview";
 import Community from "./pages/Community";
-import { View } from "lucide-react";
+import View from "./pages/View";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
-    <div>
+    <div className="min-h-screen bg-black" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, #3b1a6e 0%, #1a0a3a 30%, #000000 70%)' }}>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<Pricing />} />
