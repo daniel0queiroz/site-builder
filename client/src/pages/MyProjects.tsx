@@ -3,6 +3,7 @@ import type { Project } from "../types";
 import { Loader2Icon, PlusIcon, TrashIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { dummyProjects } from "../assets/assets";
+import Footer from "../components/Footer";
 
 const MyProjects = () => {
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,7 @@ const MyProjects = () => {
             <Loader2Icon className="size-7 animate-spin text-indigo-200" />
           </div>
         ) : projects.length > 0 ? (
-          <div className="py-10 min-h[80vh]">
+          <div className="py-10 min-h-[80vh]">
             <div className="flex items-center justify-between mb-12">
               <h1 className="text-2xl font-medium text-white">My Projects</h1>
               <button
@@ -122,6 +123,7 @@ const MyProjects = () => {
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 };
