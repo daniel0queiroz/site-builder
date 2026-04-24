@@ -11,7 +11,7 @@ import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-black" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, #3b1a6e 0%, #1a0a3a 30%, #000000 70%)' }}>
+    <div className="min-h-screen bg-black" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 35%, #3b1a6e 0%, #1a0a3a 30%, #000000 70%)' }}>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
