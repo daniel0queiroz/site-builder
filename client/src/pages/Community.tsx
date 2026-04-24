@@ -76,21 +76,14 @@ const Community = () => {
                         {new Date(project.createdAt).toLocaleDateString()}
                       </span>
                       <div className="flex gap-3 text-white text-sm">
-                        <button
-                          onClick={() => navigate(`/preview/${project.id}`)}
-                          className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-colors flex items-center gap-2"
-                        >
-                          <span>{project.user?.name?.slice(0, 1)}</span>
+                        <button className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-colors flex items-center gap-2">
+                          <span className="bg-gray-200 size-4.5 rounded-full text-black font-semibold flex items-center justify-center">
+                            {project.user?.name?.slice(0, 1)}
+                          </span>
                           {project.user?.name}
                         </button>
                       </div>
                     </div>
-                  </div>
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <TrashIcon
-                      className="absolute top-3 right-3 scale-0 group-hover:scale-100 bg-white p-1.5 size-7 rounded text-red-500 text-xl cursor-pointer transition-all"
-                      onClick={() => deleteProject(project.id)}
-                    />
                   </div>
                 </Link>
               ))}
