@@ -15,7 +15,7 @@ const App = () => {
       className="min-h-screen bg-black"
       style={{
         background:
-          "radial-gradient(ellipse 80% 60% at 50% 35%, #3b1a6e 0%, #1a0a3a 30%, #000000 70%)",
+          "radial-gradient(ellipse 80% 60% at 50% 35%, #1a3a6e 0%, #0a1a3a 30%, #000000 70%)",
       }}
     >
       <Navbar />

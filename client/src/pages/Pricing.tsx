@@ -33,7 +33,7 @@ function Pricing() {
             {plans.map((plan, idx) => (
               <div
                 key={idx}
-                className="p-6 bg-black/20 ring ring-indigo-950 mx-auto w-full max-w-sm rounded-lg text-white shadow-lg hover:ring-indigo-500 transition-all duration-400"
+                className="p-6 bg-black/20 ring ring-blue-950 mx-auto w-full max-w-sm rounded-lg text-white shadow-lg hover:ring-blue-500 transition-all duration-400"
               >
                 <h3 className="text-xl font-bold">{plan.name}</h3>
                 <div className="my-2">
@@ -50,7 +50,7 @@ function Pricing() {
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-center">
                       <svg
-                        className="h-5 w-5 text-indigo-300 mr-2"
+                        className="h-5 w-5 text-blue-300 mr-2"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -69,7 +69,7 @@ function Pricing() {
                 </ul>
                 <button
                   onClick={() => handlePurchase(plan.id)}
-                  className="w-full py-2 px-4 bg-indigo-500 hover:bg-indigo-600 active:scale-95 text-sm rounded-md transition-all"
+                  className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 active:scale-95 text-sm rounded-md transition-all"
                 >
                   Buy Now
                 </button>

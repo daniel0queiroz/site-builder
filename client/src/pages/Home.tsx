@@ -20,7 +20,7 @@ function Home() {
         href="https://prebuiltui.com"
         className="flex items-center gap-2 border border-slate-700 rounded-full p-1 pr-3 text-sm mt-20"
       >
-        <span className="bg-indigo-600 text-xs px-3 py-1 rounded-full">
+        <span className="bg-blue-600 text-xs px-3 py-1 rounded-full">
           NEW
         </span>
         <p className="flex items-center gap-2">
@@ -55,7 +55,7 @@ function Home() {
 
       <form
         onSubmit={onSubmitHandler}
-        className="bg-white/10 max-w-2xl w-full rounded-xl p-4 mt-10 border border-indigo-600/70 focus-within:ring-2 ring-indigo-500 transition-all"
+        className="bg-white/10 max-w-2xl w-full rounded-xl p-4 mt-10 border border-blue-600/70 focus-within:ring-2 ring-blue-500 transition-all"
       >
         <textarea
           onChange={(e) => setInput(e.target.value)}
@@ -64,7 +64,7 @@ function Home() {
           placeholder="Describe your presentation in details"
           required
         />
-        <button className="ml-auto flex items-center gap-2 bg-gradient-to-r from-[#CB52D4] to-indigo-600 rounded-md px-4 py-2">
+        <button className="ml-auto flex items-center gap-2 bg-gradient-to-r from-blue-400 to-blue-600 rounded-md px-4 py-2">
           {!loading ? (
             "Create with AI "
           ) : (

@@ -50,7 +50,7 @@ function Projects() {
     return (
       <>
         <div className="flex items-center justify-center h-screen">
-          <Loader2Icon className="size-7 animate-spin text-violet-200" />
+          <Loader2Icon className="size-7 animate-spin text-blue-200" />
         </div>
       </>
     );
