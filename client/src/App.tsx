@@ -1,5 +1,4 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Pricing from "./pages/Pricing";
 import Projects from "./pages/Projects";
@@ -10,15 +9,17 @@ import View from "./pages/View";
 import Navbar from "./components/Navbar";
 
 const App = () => {
+  const { pathname } = useLocation();
+
+  const hideNavbar =
+    (pathname.startsWith("/projects/") && pathname !== "/projects") ||
+    pathname.startsWith("/view/") ||
+    pathname.startsWith("/preview/");
+
   return (
-    <div
-      className="min-h-screen bg-black"
-      style={{
-        background:
-          "radial-gradient(ellipse 80% 60% at 50% 35%, #1a3a6e 0%, #0a1a3a 30%, #000000 70%)",
-      }}
-    >
-      <Navbar />
+    <div>
+      {!hideNavbar && <Navbar />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<Pricing />} />
