@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import type { Project } from "../types";
 import {
@@ -14,8 +14,15 @@ import {
   TabletIcon,
   XIcon,
 } from "lucide-react";
-import { dummyConversations, dummyProjects } from "../assets/assets";
+import {
+  dummyConversations,
+  dummyProjects,
+  dummyVersion,
+} from "../assets/assets";
 import Sidebar from "../components/Sidebar";
+import ProjectPreview, {
+  type ProjectPreviewRef,
+} from "../components/ProjectPreview";
 
 function Projects() {
   const { projectId } = useParams();
@@ -32,11 +39,17 @@ function Projects() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
+  const previewRef = useRef<ProjectPreviewRef>(null);
+
   const fetchProject = async () => {
     const project = dummyProjects.find((project) => project.id === projectId);
     setTimeout(() => {
       if (project) {
-        setProject({ ...project, conversation: dummyConversations });
+        setProject({
+          ...project,
+          conversation: dummyConversations,
+          versions: dummyVersion,
+        });
         setLoading(false);
         setIsGenerating(project.current_code ? false : true);
       }
@@ -161,7 +174,14 @@ function Projects() {
           isGenerating={isGenerating}
           setIsGenerating={setIsGenerating}
         />
-        <div className="flex-1 p-2 pl-0">project preview</div>
+        <div className="flex-1 p-2 pl-0">
+          <ProjectPreview
+            ref={previewRef}
+            project={project}
+            isGenerating={isGenerating}
+            device={device}
+          />
+        </div>
       </div>
     </div>
   ) : (
