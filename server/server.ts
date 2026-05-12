@@ -10,6 +10,13 @@ app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
+const corsOptions = {
+  origin: process.env.TRUSTED_ORIGINS?.split(",") || [],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Server is Live!");
 });
