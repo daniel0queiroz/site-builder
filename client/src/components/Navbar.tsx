@@ -1,10 +1,15 @@
 import React from "react";
 import { assets } from "../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
+import { authClient } from "@/lib/auth-client";
+import { UserButton } from "@daveyplate/better-auth-ui";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
+
+  const { data: session } = authClient.useSession();
+
   return (
     <>
       <nav className="flex items-center w-full px-6 md:px-10 py-4 justify-between text-slate-100 bg-transparent">
@@ -65,12 +70,16 @@ const Navbar = () => {
           </button>
         </div>
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate("/auth/signin")}
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition cursor-pointer"
-          >
-            Get started
-          </button>
+          {!session?.user ? (
+            <button
+              onClick={() => navigate("/auth/signin")}
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition cursor-pointer"
+            >
+              Get started
+            </button>
+          ) : (
+            <UserButton size="icon" />
+          )}
           <button
             onClick={() => setMobileOpen(true)}
             className="md:hidden"
