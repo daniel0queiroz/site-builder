@@ -9,7 +9,7 @@ export const protect = async (
 ) => {
   try {
     const session = await auth.api.getSession({
-      headers: fromNodeHeaders(res.headers),
+      headers: fromNodeHeaders(req.headers),
     });
 
     if (!session || !session?.user) {
