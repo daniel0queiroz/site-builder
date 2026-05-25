@@ -68,7 +68,7 @@ const Sidebar = ({
       interval = setInterval(() => {
         fetchProject();
       }, 10000);
-      const { data } = await api.post(`/api/projects/revision/${project.id}`, {
+      const { data } = await api.post(`/api/project/revision/${project.id}`, {
         message: input,
       });
       fetchProject();
