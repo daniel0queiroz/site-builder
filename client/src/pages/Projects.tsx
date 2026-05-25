@@ -49,15 +49,40 @@ function Projects() {
     try {
       const { data } = await api.get(`/api/user/project/${projectId}`);
       setProject(data.project);
-      setIsGenerating(data.project.current_code ? false : true);
+      if (data.project.current_code) {
+        setIsGenerating(false);
+      } else {
+        const lastMsg = data.project.conversation?.at(-1);
+        const generationFailed =
+          lastMsg?.role === "assistant" &&
+          /error|unable|sorry/i.test(lastMsg?.content ?? "");
+        setIsGenerating(!generationFailed);
+      }
       setLoading(false);
     } catch (error: any) {
       toast.error(error?.response?.data?.message || error.message);
       console.log(error);
+      setLoading(false);
     }
   };
 
-  const saveProject = async () => {};
+  const saveProject = async () => {
+    if (!previewRef.current) return;
+    const code = previewRef.current.getCode();
+    if (!code) return;
+    setIsSaving(true);
+    try {
+      const { data } = await api.put(`/api/project/save/${projectId}`, {
+        code,
+      });
+      toast.success(data.message);
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || error.message);
+      console.log(error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   // download code (index.html)
   const downloadCode = () => {
@@ -78,7 +103,18 @@ function Projects() {
     element.click();
   };
 
-  const togglePublish = async () => {};
+  const togglePublish = async () => {
+    try {
+      const { data } = await api.get(`/api/user/publish-toggle/${projectId}`);
+      toast.success(data.message);
+      setProject((prev) =>
+        prev ? { ...prev, isPublished: !prev.isPublished } : null,
+      );
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || error.message);
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     if (session?.user) {

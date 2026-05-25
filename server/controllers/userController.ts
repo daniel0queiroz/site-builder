@@ -26,6 +26,7 @@ export const getUserCredits = async (req: Request, res: Response) => {
 
 export const createUserProject = async (req: Request, res: Response) => {
   const userId = req.userId;
+  let project: Awaited<ReturnType<typeof prisma.websiteProject.create>> | null = null;
   try {
     const { initial_prompt } = req.body;
     if (!userId) {
@@ -43,7 +44,7 @@ export const createUserProject = async (req: Request, res: Response) => {
     }
 
     // Create a new project
-    const project = await prisma.websiteProject.create({
+    project = await prisma.websiteProject.create({
       data: {
         name:
           initial_prompt.length > 50
@@ -210,11 +211,30 @@ export const createUserProject = async (req: Request, res: Response) => {
   } catch (error: any) {
     console.log(error);
     if (!res.headersSent) {
-      await prisma.user.update({
-        where: { id: userId },
-        data: { credits: { increment: 5 } },
-      });
+      if (userId) {
+        await prisma.user.update({
+          where: { id: userId },
+          data: { credits: { increment: 5 } },
+        });
+      }
       res.status(500).json({ message: error.message });
+    } else if (project && userId) {
+      // Response already sent — record the failure so the client stops polling
+      try {
+        await prisma.conversation.create({
+          data: {
+            role: "assistant",
+            content: "Sorry, I encountered an error while generating your website. Please try again.",
+            projectId: project.id,
+          },
+        });
+        await prisma.user.update({
+          where: { id: userId },
+          data: { credits: { increment: 5 } },
+        });
+      } catch (dbError) {
+        console.log("Failed to record generation error:", dbError);
+      }
     }
   }
 };
