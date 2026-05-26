@@ -21,7 +21,40 @@ const App = () => {
     pathname.startsWith("/preview/");
 
   return (
-    <div>
+    <div className="relative min-h-screen overflow-x-hidden">
+      {/* ── Deep-space background layers ── */}
+      <div className="fixed inset-0 -z-10 bg-[#040d1a]" />
+
+      {/* Radial nebula glows */}
+      <div
+        className="fixed -z-10 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          inset: 0,
+          background: `
+            radial-gradient(ellipse 900px 600px at 50% -60px, rgba(37,99,235,0.18) 0%, transparent 70%),
+            radial-gradient(ellipse 600px 500px at 0% 80%,   rgba(99,102,241,0.10) 0%, transparent 70%),
+            radial-gradient(ellipse 500px 400px at 100% 60%, rgba(14,165,233,0.07) 0%, transparent 70%)
+          `,
+        }}
+      />
+
+      {/* Dot-grid texture */}
+      <div
+        className="fixed inset-0 -z-10 pointer-events-none dot-grid opacity-100"
+        aria-hidden="true"
+      />
+
+      {/* Subtle vignette */}
+      <div
+        className="fixed inset-0 -z-10 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          background:
+            "radial-gradient(ellipse 120% 80% at 50% 50%, transparent 50%, rgba(4,13,26,0.6) 100%)",
+        }}
+      />
+
       <Toaster />
       {!hideNavbar && <Navbar />}
 

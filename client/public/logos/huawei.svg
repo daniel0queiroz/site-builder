@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+  <!-- Huawei flower/petal mark — 8 petals radiating from center -->
+  <ellipse cx="12" cy="5.5" rx="2.2" ry="4.5" opacity="1"/>
+  <ellipse cx="12" cy="5.5" rx="2.2" ry="4.5" transform="rotate(45 12 12)" opacity="0.85"/>
+  <ellipse cx="12" cy="5.5" rx="2.2" ry="4.5" transform="rotate(90 12 12)" opacity="0.7"/>
+  <ellipse cx="12" cy="5.5" rx="2.2" ry="4.5" transform="rotate(135 12 12)" opacity="0.55"/>
+  <ellipse cx="12" cy="5.5" rx="2.2" ry="4.5" transform="rotate(180 12 12)" opacity="0.42"/>
+  <ellipse cx="12" cy="5.5" rx="2.2" ry="4.5" transform="rotate(225 12 12)" opacity="0.55"/>
+  <ellipse cx="12" cy="5.5" rx="2.2" ry="4.5" transform="rotate(270 12 12)" opacity="0.7"/>
+  <ellipse cx="12" cy="5.5" rx="2.2" ry="4.5" transform="rotate(315 12 12)" opacity="0.85"/>
+</svg>
