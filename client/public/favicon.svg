@@ -1,4 +1,17 @@
-<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="100" height="100" rx="22" fill="#2563EB"/>
-<path d="M28 74V26L50 60L72 26V74" stroke="white" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#bfdbfe" stop-opacity="0.7"/>
+    </linearGradient>
+  </defs>
+  <rect width="34" height="34" rx="9" fill="url(#bg)"/>
+  <rect x="0.75" y="0.75" width="32.5" height="32.5" rx="8.5" stroke="white" stroke-opacity="0.15" stroke-width="1.5" fill="none"/>
+  <path d="M17 7.5L18.9 15.1L26.5 17L18.9 18.9L17 26.5L15.1 18.9L7.5 17L15.1 15.1Z" fill="url(#glow)"/>
+  <path d="M25.5 8.5L26.3 11.7L29.5 12.5L26.3 13.3L25.5 16.5L24.7 13.3L21.5 12.5L24.7 11.7Z" fill="white" fill-opacity="0.55"/>
 </svg>
