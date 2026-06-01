@@ -27,8 +27,25 @@
     "subtitle": "Start for free and scale up as you grow. Find the perfect plan for your content creation needs.",
     "credits": "credits",
     "buyNow": "Buy Now",
-    "notice": "Project <bold>Creation / Revision</bold> consumes <bold>5 credits</bold>. Purchase more credits to keep creating.",
-    "errorLogin": "Please login to purchase credits"
+    "notice": "Credits never expire. Each creation or revision costs <bold>5 credits</bold>.",
+    "errorLogin": "Please login to purchase credits",
+    "currencySymbol": "$",
+    "plans": {
+      "basic":      { "name": "Starter",    "price": "$5",   "description": "100 credits to try out the platform.", "features": ["AI chat to create & revise sites", "5 credits per creation or revision", "Version history & rollback", "Visual element editor", "Mobile / tablet / desktop preview", "HTML download", "Community publishing"] },
+      "pro":        { "name": "Pro",        "price": "$19",  "description": "400 credits for regular use — best value.",          "features": ["AI chat to create & revise sites", "5 credits per creation or revision", "Version history & rollback", "Visual element editor", "Mobile / tablet / desktop preview", "HTML download", "Community publishing"] },
+      "enterprise": { "name": "Enterprise", "price": "$49",  "description": "1000 credits for heavy users and agencies.",          "features": ["AI chat to create & revise sites", "5 credits per creation or revision", "Version history & rollback", "Visual element editor", "Mobile / tablet / desktop preview", "HTML download", "Community publishing"] }
+    },
+    "exportCard": {
+      "badge": "Uses credits",
+      "title": "Professional Export",
+      "creditsAmount": "15",
+      "creditsLabel": "credits per project",
+      "priceNote": "≈ $0.75 from the Starter pack",
+      "description": "Export your project's code optimized, with AI-generated SEO and Open Graph meta tags — ready to deploy on any host.",
+      "features": ["Minified HTML/CSS/JS", "AI-generated basic SEO", "Open Graph meta tags", "Setup README", "No watermark"],
+      "button": "Export (15 credits)",
+      "comingSoon": "Coming soon"
+    }
   },
   "myProjects": {
     "title": "My Projects",

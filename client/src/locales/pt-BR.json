@@ -27,8 +27,25 @@
     "subtitle": "Comece grátis e expanda conforme crescer. Encontre o plano ideal para suas necessidades.",
     "credits": "créditos",
     "buyNow": "Comprar Agora",
-    "notice": "Criar ou revisar um projeto consome <bold>5 créditos</bold>. Compre mais créditos para continuar criando.",
-    "errorLogin": "Faça login para adquirir créditos"
+    "notice": "Créditos não expiram. Cada criação ou revisão consome <bold>5 créditos</bold>.",
+    "errorLogin": "Faça login para adquirir créditos",
+    "currencySymbol": "R$",
+    "plans": {
+      "basic":      { "name": "Starter",      "price": "R$19",  "description": "100 créditos para experimentar a plataforma.", "features": ["Chat com IA para criar e revisar sites", "5 créditos por criação ou revisão", "Histórico de versões com rollback", "Editor visual de elementos", "Preview mobile / tablet / desktop", "Download do HTML", "Publicação na comunidade"] },
+      "pro":        { "name": "Pro",          "price": "R$49",  "description": "400 créditos para uso frequente — melhor custo-benefício.", "features": ["Chat com IA para criar e revisar sites", "5 créditos por criação ou revisão", "Histórico de versões com rollback", "Editor visual de elementos", "Preview mobile / tablet / desktop", "Download do HTML", "Publicação na comunidade"] },
+      "enterprise": { "name": "Profissional", "price": "R$97",  "description": "1000 créditos para uso intenso e agências.", "features": ["Chat com IA para criar e revisar sites", "5 créditos por criação ou revisão", "Histórico de versões com rollback", "Editor visual de elementos", "Preview mobile / tablet / desktop", "Download do HTML", "Publicação na comunidade"] }
+    },
+    "exportCard": {
+      "badge": "Usa créditos",
+      "title": "Exportação Profissional",
+      "creditsAmount": "15",
+      "creditsLabel": "créditos por projeto",
+      "priceNote": "≈ R$2,85 do plano Starter",
+      "description": "Exporte o código do seu projeto otimizado, com SEO gerado por IA e meta tags Open Graph — pronto para publicar em qualquer hospedagem.",
+      "features": ["HTML/CSS/JS minificados", "SEO básico gerado por IA", "Meta tags Open Graph", "README de instalação", "Sem marca d'água"],
+      "button": "Exportar (15 créditos)",
+      "comingSoon": "Em breve"
+    }
   },
   "myProjects": {
     "title": "Meus Projetos",

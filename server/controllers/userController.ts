@@ -341,33 +341,46 @@ export const togglePublish = async (req: Request, res: Response) => {
 // Controller Function to Purchase Credits
 export const purchaseCredits = async (req: Request, res: Response) => {
   try {
-    interface Plan {
+    interface PlanVariant {
       credits: number;
       amount: number;
+      currency: string;
+      label: string;
     }
 
-    const plans = {
-      basic: { credits: 100, amount: 5 },
-      pro: { credits: 400, amount: 19 },
-      enterprise: { credits: 1000, amount: 49 },
+    // BRL amounts are competitive for the Brazilian market
+    const plans: Record<string, { usd: PlanVariant; brl: PlanVariant }> = {
+      basic: {
+        usd: { credits: 100, amount: 5,  currency: "usd", label: "100 credits" },
+        brl: { credits: 100, amount: 19, currency: "brl", label: "100 créditos" },
+      },
+      pro: {
+        usd: { credits: 400, amount: 19, currency: "usd", label: "400 credits" },
+        brl: { credits: 400, amount: 49, currency: "brl", label: "400 créditos" },
+      },
+      enterprise: {
+        usd: { credits: 1000, amount: 49, currency: "usd", label: "1000 credits" },
+        brl: { credits: 1000, amount: 97, currency: "brl", label: "1000 créditos" },
+      },
     };
 
     const userId = req.userId;
-    const { planId } = req.body as { planId: keyof typeof plans };
+    const { planId, locale } = req.body as { planId: string; locale?: string };
     const origin = req.headers.origin as string;
 
-    const plan: Plan = plans[planId];
-
-    if (!plan) {
+    const planGroup = plans[planId];
+    if (!planGroup) {
       return res.status(404).json({ message: "Plan not found" });
     }
+
+    const variant = locale === "pt-BR" ? planGroup.brl : planGroup.usd;
 
     const transaction = await prisma.transaction.create({
       data: {
         userId: userId!,
-        planId: req.body.planId,
-        amount: plan.amount,
-        credits: plan.credits,
+        planId,
+        amount: variant.amount,
+        credits: variant.credits,
       },
     });
 
@@ -379,11 +392,11 @@ export const purchaseCredits = async (req: Request, res: Response) => {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: variant.currency,
             product_data: {
-              name: `AiSiteBuilder - ${plan.credits} credits`,
+              name: `Nexio AI Site Builder — ${variant.label}`,
             },
-            unit_amount: Math.floor(transaction.amount) * 100,
+            unit_amount: Math.floor(variant.amount) * 100,
           },
           quantity: 1,
         },
@@ -393,7 +406,7 @@ export const purchaseCredits = async (req: Request, res: Response) => {
         transactionId: transaction.id,
         appId: "ai-site-builder",
       },
-      expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // Expires in 30 minutes
+      expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
     });
 
     res.json({ payment_link: session.url });
