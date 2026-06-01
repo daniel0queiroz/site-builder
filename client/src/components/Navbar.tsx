@@ -203,17 +203,17 @@ const Navbar = () => {
             </button>
           ) : (
             <>
-              {/* Credits badge — label hidden on mobile to save space */}
+              {/* Credits badge — single fixed width across all screen sizes */}
               <div className="
-                flex items-center gap-1.5
-                md:min-w-[100px] px-3 py-1.5 rounded-full text-xs font-semibold
-                bg-blue-500/15 border border-blue-500/30
+                flex items-center justify-between
+                w-[112px] px-3 py-1.5 rounded-full text-xs font-semibold
+                bg-blue-500/15 border border-blue-500/30 shrink-0
               ">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="shrink-0">
                   <path d="M6 1L7 4.5H10.5L7.8 6.8L8.8 10.5L6 8.2L3.2 10.5L4.2 6.8L1.5 4.5H5Z" fill="#93c5fd" fillOpacity="0.9"/>
                 </svg>
                 <span className="text-blue-300 font-bold tabular-nums">{credits}</span>
-                <span className="hidden md:inline text-slate-400">{t("nav.credits")}</span>
+                <span className="text-slate-400">{t("nav.credits")}</span>
               </div>
               <UserButton size="icon" />
             </>
