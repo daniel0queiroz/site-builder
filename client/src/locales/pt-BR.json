@@ -28,6 +28,8 @@
     "examplesTitle": "Sites criados com Nexio",
     "examplesSubtitle": "Exemplos reais gerados pela plataforma a partir de um único prompt de texto.",
     "examplePromptLabel": "Prompt inicial",
+    "exampleViewSite": "Ver site",
+    "exampleOpenTab": "Abrir em nova aba",
     "exampleEditCaption": "Depois de gerado, você ainda pode:",
     "exampleEditFeatures": ["✏️ Editar qualquer texto ou título", "🎨 Mudar cores, fontes e estilos", "🔘 Alterar botões e links", "↩️ Voltar para versões anteriores", "📱 Visualizar em celular e tablet", "⬇️ Baixar o HTML e publicar onde quiser"],
     "examplePrompts": {

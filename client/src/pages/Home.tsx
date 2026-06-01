@@ -1,7 +1,7 @@
 import api from "@/configs/axios";
 import { authClient } from "@/lib/auth-client";
-import { Loader2Icon, ChevronDownIcon } from "lucide-react";
-import React, { useState } from "react";
+import { Loader2Icon, ChevronDownIcon, XIcon, ExternalLinkIcon } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
@@ -43,6 +43,57 @@ const HOW_STEPS = [
   },
 ];
 
+function PreviewModal({ code, prompt, onClose }: { code: string; prompt: string; onClose: () => void }) {
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  const openInTab = () => {
+    const blob = new Blob([code], { type: "text/html" });
+    window.open(URL.createObjectURL(blob), "_blank");
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex flex-col bg-black/80 backdrop-blur-sm animate-fade-in"
+      onClick={onClose}
+    >
+      <div
+        className="flex items-center justify-between px-5 py-3 bg-gray-950 border-b border-white/[0.08] shrink-0"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <p className="text-slate-400 text-sm italic line-clamp-1 max-w-lg">"{prompt}"</p>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={openInTab}
+            className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.10] transition-all"
+          >
+            <ExternalLinkIcon size={13} />
+            {t("home.exampleOpenTab")}
+          </button>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-slate-400 hover:text-white transition-all"
+          >
+            <XIcon size={16} />
+          </button>
+        </div>
+      </div>
+      <div className="flex-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <iframe srcDoc={code} className="w-full h-full" sandbox="allow-scripts allow-same-origin" />
+      </div>
+    </div>
+  );
+}
+
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
@@ -80,6 +131,7 @@ function Home() {
 
   const [input, setInput] = React.useState("");
   const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState<{ code: string; prompt: string } | null>(null);
 
   const onSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,6 +154,13 @@ function Home() {
 
   return (
     <div className="relative text-white overflow-x-hidden">
+      {preview && (
+        <PreviewModal
+          code={preview.code}
+          prompt={preview.prompt}
+          onClose={() => setPreview(null)}
+        />
+      )}
 
       {/* ══ HERO ══ */}
       <section className="relative flex flex-col items-center pb-24 px-4 overflow-hidden">
@@ -179,27 +238,41 @@ function Home() {
           <p className="text-slate-400 text-sm mt-2 max-w-md mx-auto">{t("home.examplesSubtitle")}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {EXAMPLES.map((project) => (
-            <div key={project.id} className="rounded-xl bg-gray-900/60 border border-gray-700 overflow-hidden hover:border-blue-800/60 transition-all duration-300">
-              {/* iframe fills card width by being 400% wide then scaled to 25% */}
-              <div className="relative w-full h-44 bg-gray-900 overflow-hidden border-b border-gray-800">
-                {project.current_code ? (
-                  <iframe
-                    srcDoc={project.current_code}
-                    className="absolute top-0 left-0 pointer-events-none"
-                    sandbox="allow-scripts allow-same-origin"
-                    style={{ width: "400%", height: "400%", transform: "scale(0.25)", transformOrigin: "top left" }}
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full text-gray-500 text-sm">No preview</div>
-                )}
+          {EXAMPLES.map((project) => {
+            const translatedPrompt = prompts[project.id] ?? project.initial_prompt;
+            return (
+              <div
+                key={project.id}
+                onClick={() => project.current_code && setPreview({ code: project.current_code, prompt: translatedPrompt })}
+                className="rounded-xl bg-gray-900/60 border border-gray-700 overflow-hidden hover:border-blue-500/60 hover:shadow-[0_0_24px_rgba(59,130,246,0.15)] transition-all duration-300 cursor-pointer group"
+              >
+                <div className="relative w-full h-44 bg-gray-900 overflow-hidden border-b border-gray-800">
+                  {project.current_code ? (
+                    <>
+                      <iframe
+                        srcDoc={project.current_code}
+                        className="absolute top-0 left-0 pointer-events-none"
+                        sandbox="allow-scripts allow-same-origin"
+                        style={{ width: "400%", height: "400%", transform: "scale(0.25)", transformOrigin: "top left" }}
+                      />
+                      {/* hover overlay */}
+                      <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-colors duration-300 flex items-center justify-center">
+                        <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 text-gray-900 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg">
+                          <ExternalLinkIcon size={12} /> {t("home.exampleViewSite")}
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-gray-500 text-sm">No preview</div>
+                  )}
+                </div>
+                <div className="p-4">
+                  <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-1 font-medium">{t("home.examplePromptLabel")}</p>
+                  <p className="text-slate-300 text-sm leading-snug line-clamp-2 italic">"{translatedPrompt}"</p>
+                </div>
               </div>
-              <div className="p-4">
-                <p className="text-[10px] uppercase tracking-widest text-slate-500 mb-1 font-medium">{t("home.examplePromptLabel")}</p>
-                <p className="text-slate-300 text-sm leading-snug line-clamp-2 italic">"{prompts[project.id] ?? project.initial_prompt}"</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
