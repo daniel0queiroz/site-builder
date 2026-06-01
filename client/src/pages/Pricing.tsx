@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import { authClient } from "@/lib/auth-client";
 import api from "@/configs/axios";
 import { toast } from "sonner";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 
 interface Plan {
   id: string;
@@ -92,9 +92,10 @@ function Pricing() {
           </div>
         </div>
         <p className="mx-auto text-center text-sm max-w-md mt-10 text-white/60 font-light">
-          {t("pricing.notice", {
-            components: { bold: <span className="text-white" /> },
-          })}
+          <Trans
+            i18nKey="pricing.notice"
+            components={{ bold: <span className="text-white font-medium" /> }}
+          />
         </p>
       </div>
       <Footer />
