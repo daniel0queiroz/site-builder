@@ -192,7 +192,7 @@ function Projects() {
           <button
             onClick={saveProject}
             disabled={isSaving}
-            className="max-sm:hidden bg-gray-800 hover:bg-gray-700 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-color border border-gray-700"
+            className="max-sm:hidden w-[80px] justify-center bg-gray-800 hover:bg-gray-700 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-color border border-gray-700 whitespace-nowrap"
           >
             {isSaving ? (
               <Loader2Icon className="animate-spin" size={16} />
@@ -204,21 +204,21 @@ function Projects() {
           <Link
             target="_blank"
             to={`/preview/${projectId}`}
-            className="flex items-center gap-2 px-4 py-1 rounded sm:rounded-sm border border-gray-700 hover:border-gray-500 transition-colors"
+            className="w-[110px] justify-center flex items-center gap-2 px-4 py-1 rounded sm:rounded-sm border border-gray-700 hover:border-gray-500 transition-colors whitespace-nowrap"
           >
             <FullscreenIcon size={16} />
             {t("builder.preview")}
           </Link>
           <button
             onClick={downloadCode}
-            className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
+            className="w-[110px] justify-center bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors whitespace-nowrap"
           >
             <ArrowBigDownDashIcon size={16} />
             {t("builder.download")}
           </button>
           <button
             onClick={togglePublish}
-            className="bg-linear-to-br from-indigo-700 to-indigo-600 hover:from-indigo-600 hover:to-indigo-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
+            className="w-[120px] justify-center bg-linear-to-br from-indigo-700 to-indigo-600 hover:from-indigo-600 hover:to-indigo-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors whitespace-nowrap"
           >
             {project.isPublished ? (
               <EyeOffIcon size={16} />

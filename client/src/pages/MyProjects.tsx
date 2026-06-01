@@ -90,7 +90,7 @@ const MyProjects = () => {
                       <h2 className="text-lg font-medium line-clamp-2">
                         {project.name}
                       </h2>
-                      <button className="px-2.5 py-0.5 mt-1 ml-2 text-xs bg-gray-800 border border-gray-700 rounded-full">
+                      <button className="w-[72px] shrink-0 text-center py-0.5 mt-1 ml-2 text-xs bg-gray-800 border border-gray-700 rounded-full whitespace-nowrap">
                         {t("myProjects.website")}
                       </button>
                     </div>
@@ -107,13 +107,13 @@ const MyProjects = () => {
                       <div className="flex gap-3 text-white text-sm">
                         <button
                           onClick={() => navigate(`/preview/${project.id}`)}
-                          className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-all"
+                          className="w-[100px] text-center py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-all whitespace-nowrap"
                         >
                           {t("myProjects.preview")}
                         </button>
                         <button
                           onClick={() => navigate(`/projects/${project.id}`)}
-                          className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-colors"
+                          className="w-[64px] text-center py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-colors whitespace-nowrap"
                         >
                           {t("myProjects.open")}
                         </button>
