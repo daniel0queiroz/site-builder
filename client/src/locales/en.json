@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Home",
+    "myProjects": "My Projects",
+    "community": "Community",
+    "pricing": "Pricing",
+    "getStarted": "Get started",
+    "credits": "Credits"
+  },
+  "home": {
+    "badge": "New",
+    "badgeText": "Try 30 days free trial",
+    "headline": "Turn thoughts into websites instantly, with AI.",
+    "subheadline": "Create, customize and publish websites faster than ever with Nexio's AI Site Builder.",
+    "placeholder": "Describe the website you want to build…",
+    "hintLanding": "Landing page",
+    "hintPortfolio": "Portfolio",
+    "hintSaas": "SaaS app",
+    "createButton": "Create with AI",
+    "creating": "Creating",
+    "trustedBy": "Trusted by teams at",
+    "errorSignIn": "Please sign in to create a project",
+    "errorEmpty": "Please enter a message"
+  },
+  "pricing": {
+    "title": "Choose Your Plan",
+    "subtitle": "Start for free and scale up as you grow. Find the perfect plan for your content creation needs.",
+    "credits": "credits",
+    "buyNow": "Buy Now",
+    "notice": "Project <bold>Creation / Revision</bold> consumes <bold>5 credits</bold>. You can purchase more credits to create more projects.",
+    "errorLogin": "Please login to purchase credits"
+  },
+  "myProjects": {
+    "title": "My Projects",
+    "createNew": "Create New",
+    "noPreview": "No Preview",
+    "website": "Website",
+    "preview": "Preview",
+    "open": "Open",
+    "empty": "You have no projects yet!",
+    "confirmDelete": "Are you sure you want to delete this project?",
+    "loginRequired": "Please login to view your projects"
+  },
+  "community": {
+    "title": "Published Projects",
+    "noPreview": "No Preview",
+    "website": "Website",
+    "empty": "No published projects yet!"
+  },
+  "builder": {
+    "previewingVersion": "Previewing last saved version",
+    "save": "Save",
+    "preview": "Preview",
+    "download": "Download",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "unableToLoad": "Unable to load project!",
+    "loginRequired": "Please login to view your projects"
+  },
+  "sidebar": {
+    "codeUpdated": "code updated",
+    "currentVersion": "Current version",
+    "rollback": "Roll back to this version",
+    "confirmRollback": "Are you sure you want to roll back to this version?",
+    "inputPlaceholder": "Describe your website or request changes..."
+  },
+  "editor": {
+    "title": "Edit Element",
+    "textContent": "Text Content",
+    "className": "Class Name",
+    "padding": "Padding",
+    "margin": "Margin",
+    "fontSize": "Font Size",
+    "background": "Background",
+    "textColor": "Text Color"
+  },
+  "loader": {
+    "step1": "Analysing your request...",
+    "step2": "Generating layout structure...",
+    "step3": "Assembling UI components...",
+    "step4": "Finalizing your website...",
+    "takesTime": "This may take around 2-3 minutes..."
+  },
+  "footer": {
+    "copyright": "Copyright © 2025 Nexio - Daniel Queiroz"
+  }
+}

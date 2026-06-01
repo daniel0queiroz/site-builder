@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface EditorPanelProps {
   selectedElement: {
@@ -24,6 +25,7 @@ const EditorPanel = ({
   onClose,
 }: EditorPanelProps) => {
   const [values, setValues] = useState(selectedElement);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setValues(selectedElement);
@@ -49,18 +51,15 @@ const EditorPanel = ({
   return (
     <div className="absolute top-4 right-4 w-80 bg-white rounded-lg shadow-xl border border-gray-200 p-4 z-50 animate-fade-in fade-in">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-gray-800">Edit Element</h3>
-        <button
-          onClick={onClose}
-          className="p-1 hover:bg-gray-100 rounded-full"
-        >
-          <X className="w-4 h-4 text-gray-500 " />
+        <h3 className="font-semibold text-gray-800">{t("editor.title")}</h3>
+        <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-full">
+          <X className="w-4 h-4 text-gray-500" />
         </button>
       </div>
       <div className="space-y-4 text-black">
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">
-            Text Content
+            {t("editor.textContent")}
           </label>
           <textarea
             value={values.text}
@@ -70,7 +69,7 @@ const EditorPanel = ({
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">
-            Class Name
+            {t("editor.className")}
           </label>
           <input
             type="text"
@@ -82,7 +81,7 @@ const EditorPanel = ({
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">
-              Padding
+              {t("editor.padding")}
             </label>
             <input
               type="text"
@@ -93,7 +92,7 @@ const EditorPanel = ({
           </div>
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">
-              Margin
+              {t("editor.margin")}
             </label>
             <input
               type="text"
@@ -106,7 +105,7 @@ const EditorPanel = ({
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">
-              Font Size
+              {t("editor.fontSize")}
             </label>
             <input
               type="text"
@@ -120,7 +119,7 @@ const EditorPanel = ({
       <div className="grid grid-cols-2 gap-3 mt-4">
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">
-            Background
+            {t("editor.background")}
           </label>
           <div className="flex items-center gap-2 border border-gray-400 rounded-md p-1">
             <input
@@ -130,9 +129,7 @@ const EditorPanel = ({
                   ? "#ffffff"
                   : values.styles.backgroundColor
               }
-              onChange={(e) =>
-                handleStyleChange("backgroundColor", e.target.value)
-              }
+              onChange={(e) => handleStyleChange("backgroundColor", e.target.value)}
               className="w-6 h-6 cursor-pointer"
             />
             <span className="text-xs text-gray-600 truncate">
@@ -142,7 +139,7 @@ const EditorPanel = ({
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">
-            Text Color
+            {t("editor.textColor")}
           </label>
           <div className="flex items-center gap-2 border border-gray-400 rounded-md p-1">
             <input

@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Início",
+    "myProjects": "Meus Projetos",
+    "community": "Comunidade",
+    "pricing": "Planos",
+    "getStarted": "Começar agora",
+    "credits": "Créditos"
+  },
+  "home": {
+    "badge": "Novo",
+    "badgeText": "Experimente 30 dias grátis",
+    "headline": "Transforme ideias em sites instantaneamente, com IA.",
+    "subheadline": "Crie, personalize e publique sites mais rápido do que nunca com o Nexio AI Site Builder.",
+    "placeholder": "Descreva o site que você quer criar…",
+    "hintLanding": "Landing page",
+    "hintPortfolio": "Portfólio",
+    "hintSaas": "App SaaS",
+    "createButton": "Criar com IA",
+    "creating": "Criando",
+    "trustedBy": "Utilizado por equipes em",
+    "errorSignIn": "Faça login para criar um projeto",
+    "errorEmpty": "Por favor, descreva o site que deseja criar"
+  },
+  "pricing": {
+    "title": "Escolha seu Plano",
+    "subtitle": "Comece grátis e expanda conforme crescer. Encontre o plano ideal para suas necessidades.",
+    "credits": "créditos",
+    "buyNow": "Comprar Agora",
+    "notice": "Criar ou revisar um projeto consome <bold>5 créditos</bold>. Compre mais créditos para continuar criando.",
+    "errorLogin": "Faça login para adquirir créditos"
+  },
+  "myProjects": {
+    "title": "Meus Projetos",
+    "createNew": "Criar Novo",
+    "noPreview": "Sem Prévia",
+    "website": "Site",
+    "preview": "Visualizar",
+    "open": "Abrir",
+    "empty": "Você ainda não tem projetos!",
+    "confirmDelete": "Tem certeza que deseja excluir este projeto?",
+    "loginRequired": "Faça login para ver seus projetos"
+  },
+  "community": {
+    "title": "Projetos Publicados",
+    "noPreview": "Sem Prévia",
+    "website": "Site",
+    "empty": "Nenhum projeto publicado ainda!"
+  },
+  "builder": {
+    "previewingVersion": "Visualizando última versão salva",
+    "save": "Salvar",
+    "preview": "Visualizar",
+    "download": "Baixar",
+    "publish": "Publicar",
+    "unpublish": "Despublicar",
+    "unableToLoad": "Não foi possível carregar o projeto!",
+    "loginRequired": "Faça login para ver seus projetos"
+  },
+  "sidebar": {
+    "codeUpdated": "código atualizado",
+    "currentVersion": "Versão atual",
+    "rollback": "Voltar para esta versão",
+    "confirmRollback": "Tem certeza que deseja voltar para esta versão?",
+    "inputPlaceholder": "Descreva seu site ou solicite alterações..."
+  },
+  "editor": {
+    "title": "Editar Elemento",
+    "textContent": "Conteúdo de Texto",
+    "className": "Classe CSS",
+    "padding": "Espaçamento interno",
+    "margin": "Margem",
+    "fontSize": "Tamanho da fonte",
+    "background": "Plano de fundo",
+    "textColor": "Cor do texto"
+  },
+  "loader": {
+    "step1": "Analisando sua solicitação...",
+    "step2": "Gerando estrutura de layout...",
+    "step3": "Montando componentes visuais...",
+    "step4": "Finalizando seu site...",
+    "takesTime": "Isso pode levar cerca de 2-3 minutos..."
+  },
+  "footer": {
+    "copyright": "Copyright © 2025 Nexio - Daniel Queiroz"
+  }
+}

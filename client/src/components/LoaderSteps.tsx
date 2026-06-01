@@ -5,18 +5,20 @@ import {
   TriangleIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-
-const steps = [
-  { icon: ScanLineIcon, label: "Analysing your request..." },
-  { icon: SquareIcon, label: "Generating layout structure..." },
-  { icon: TriangleIcon, label: "Assembling UI components..." },
-  { icon: CircleIcon, label: "Finalizing your website..." },
-];
+import { useTranslation } from "react-i18next";
 
 const STEP_DURATION = 45000;
 
 const LoaderSteps = () => {
   const [current, setCurrent] = useState(0);
+  const { t } = useTranslation();
+
+  const steps = [
+    { icon: ScanLineIcon, label: t("loader.step1") },
+    { icon: SquareIcon,   label: t("loader.step2") },
+    { icon: TriangleIcon, label: t("loader.step3") },
+    { icon: CircleIcon,   label: t("loader.step4") },
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,6 +28,7 @@ const LoaderSteps = () => {
   }, []);
 
   const Icon = steps[current].icon;
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center bg-gray-950 relative overflow-hidden text-white">
       <div className="absolute inset-0 bg-linear-to-br from-blue-500/10 via-purple-500/10 to-fuchsia-500/10 blur-3xl animate-pulse">
@@ -35,7 +38,6 @@ const LoaderSteps = () => {
           <Icon className="w-8 h-8 text-white opacity-80 animate-bounce" />
         </div>
       </div>
-      {/* Step label - fade using transition only (no invisible start)*/}
       <p
         key={current}
         className="mt-8 text-lg font-light text-white/90 tracking-wide transition-all duration-700 ease-in-out opacity-100"
@@ -43,7 +45,7 @@ const LoaderSteps = () => {
         {steps[current].label}
       </p>
       <p className="text-xs text-gray-400 mt-2 transition-opacity duration-700 opacity-100">
-        This may take around 2-3 minutes...
+        {t("loader.takesTime")}
       </p>
     </div>
   );

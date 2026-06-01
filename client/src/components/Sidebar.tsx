@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import type { Message, Project } from "../types";
+import type { Message, Project, Version } from "../types";
 import {
   BotIcon,
   EyeIcon,
@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import api from "@/configs/axios";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 interface SidebarProps {
   isMenuOpen: boolean;
@@ -28,6 +29,7 @@ const Sidebar = ({
 }: SidebarProps) => {
   const messageRef = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
+  const { t } = useTranslation();
 
   const fetchProject = async () => {
     try {
@@ -35,15 +37,12 @@ const Sidebar = ({
       setProject(data.project);
     } catch (error: any) {
       toast.error(error?.response?.data?.message || error.message);
-      console.log(error);
     }
   };
 
   const handleRollback = async (versionId: string) => {
     try {
-      const confirm = window.confirm(
-        "Are you sure you want to rollbacl to this version?",
-      );
+      const confirm = window.confirm(t("sidebar.confirmRollback"));
       if (!confirm) return;
       setIsGenerating(true);
       const { data } = await api.get(
@@ -56,7 +55,6 @@ const Sidebar = ({
     } catch (error: any) {
       setIsGenerating(false);
       toast.error(error?.response?.data?.message || error.message);
-      console.log(error);
     }
   };
 
@@ -79,10 +77,10 @@ const Sidebar = ({
     } catch (error: any) {
       setIsGenerating(false);
       toast.error(error?.response?.data?.message || error.message);
-      console.log(error);
       clearInterval(interval);
     }
   };
+
   useEffect(() => {
     if (messageRef.current) {
       messageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -93,7 +91,7 @@ const Sidebar = ({
     <div
       className={`h-full sm:max-w-sm rounded-xl bg-gray-900 border-gray-800 transition-all ${isMenuOpen ? "max-sm:w-0 overflow-hidden" : "w-full"}`}
     >
-      <div className="flex flex-col h-full ">
+      <div className="flex flex-col h-full">
         {/* Messages container */}
         <div className="flex-1 overflow-y-auto no-scrollbar px-3 flex flex-col gap-4">
           {[...project.conversation, ...project.versions]
@@ -125,7 +123,7 @@ const Sidebar = ({
                     </div>
                     {isUser && (
                       <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
-                        <UserIcon className="size-5 text-gray-200 " />
+                        <UserIcon className="size-5 text-gray-200" />
                       </div>
                     )}
                   </div>
@@ -138,7 +136,7 @@ const Sidebar = ({
                     className="w-4/5 mx-auto my-2 p-3 rounded-xl bg-gray-800 text-gray-100 shadow flex flex-col gap-2"
                   >
                     <div className="text-xs font-medium">
-                      code updated <br />
+                      {t("sidebar.codeUpdated")} <br />
                       <span className="text-gray-500 text-xs font-normal">
                         {new Date(ver.timestamp).toLocaleDateString()}
                       </span>
@@ -146,14 +144,14 @@ const Sidebar = ({
                     <div className="flex items-center justify-between">
                       {project.current_version_index === ver.id ? (
                         <button className="px-3 py-1 rounded-md text-xs bg-gray-700">
-                          Current version
+                          {t("sidebar.currentVersion")}
                         </button>
                       ) : (
                         <button
                           onClick={() => handleRollback(ver.id)}
-                          className="px-3 py-1 rounded-md text-xs  bg-indigo-500 hover:bg-indigo-600 text-white"
+                          className="px-3 py-1 rounded-md text-xs bg-indigo-500 hover:bg-indigo-600 text-white"
                         >
-                          Roll back to this version
+                          {t("sidebar.rollback")}
                         </button>
                       )}
                       <Link
@@ -172,20 +170,10 @@ const Sidebar = ({
               <div className="w-8 h-8 rounded-full bg-linear-to-br from-indigo-600 to-indigo-700 flex items-center justify-center">
                 <BotIcon className="size-5 text-white" />
               </div>
-              {/* three dot loader */}
               <div className="flex gap-1.5 h-full items-end">
-                <span
-                  className="size-2 rounded-full animate-bounce bg-gray-600"
-                  style={{ animationDelay: "0s" }}
-                />
-                <span
-                  className="size-2 rounded-full animate-bounce bg-gray-600"
-                  style={{ animationDelay: "0.2s" }}
-                />
-                <span
-                  className="size-2 rounded-full animate-bounce bg-gray-600"
-                  style={{ animationDelay: "0.4s" }}
-                />
+                <span className="size-2 rounded-full animate-bounce bg-gray-600" style={{ animationDelay: "0s" }} />
+                <span className="size-2 rounded-full animate-bounce bg-gray-600" style={{ animationDelay: "0.2s" }} />
+                <span className="size-2 rounded-full animate-bounce bg-gray-600" style={{ animationDelay: "0.4s" }} />
               </div>
             </div>
           )}
@@ -198,7 +186,7 @@ const Sidebar = ({
               onChange={(e) => setInput(e.target.value)}
               value={input}
               rows={4}
-              placeholder="Describe your website or request changes..."
+              placeholder={t("sidebar.inputPlaceholder")}
               className="flex-1 p-3 rounded-xl resize-none text-sm outline-none ring ring-gray-700 focus:ring-indigo-500 bg-gray-800 text-gray-100 placeholder-gray-400 transition-all"
               disabled={isGenerating}
             />
@@ -215,7 +203,6 @@ const Sidebar = ({
           </div>
         </form>
       </div>
-      Sidebar
     </div>
   );
 };

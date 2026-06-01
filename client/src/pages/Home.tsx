@@ -4,10 +4,12 @@ import { Loader2Icon } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 function Home() {
   const { data: session } = authClient.useSession();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [input, setInput] = React.useState("");
   const [loading, setLoading] = useState(false);
@@ -16,9 +18,9 @@ function Home() {
     e.preventDefault();
     try {
       if (!session?.user) {
-        return toast.error("Please sign in to create a project");
+        return toast.error(t("home.errorSignIn"));
       } else if (!input.trim()) {
-        return toast.error("Please enter a message");
+        return toast.error(t("home.errorEmpty"));
       }
       setLoading(true);
       const { data } = await api.post("/api/user/project", {
@@ -29,7 +31,6 @@ function Home() {
     } catch (error: any) {
       setLoading(false);
       toast.error(error?.response?.data?.message || error.message);
-      console.log(error);
     }
   };
 
@@ -48,8 +49,7 @@ function Home() {
       />
 
       {/* ── Announce badge ── */}
-      <a
-        href="https://prebuiltui.com"
+      <div
         className="
           animate-fade-in
           flex items-center gap-2.5
@@ -58,9 +58,6 @@ function Home() {
           rounded-full
           bg-blue-500/10 border border-blue-500/25
           text-sm text-slate-300
-          hover:border-blue-400/50 hover:text-white
-          transition-all duration-300
-          group
         "
       >
         <span className="
@@ -68,16 +65,10 @@ function Home() {
           text-white text-[11px] font-semibold tracking-wide uppercase
           px-3 py-0.5 rounded-full
         ">
-          New
+          {t("home.badge")}
         </span>
-        <span>Try 30 days free trial option</span>
-        <svg
-          className="text-blue-400 group-hover:translate-x-0.5 transition-transform duration-200"
-          width="6" height="10" viewBox="0 0 6 10" fill="none"
-        >
-          <path d="m1 1 4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </a>
+        <span>{t("home.badgeText")}</span>
+      </div>
 
       {/* ── Headline ── */}
       <h1
@@ -90,13 +81,12 @@ function Home() {
           text-gradient
         "
       >
-        Turn thoughts into websites instantly, with AI.
+        {t("home.headline")}
       </h1>
 
       {/* ── Sub-headline ── */}
       <p className="animate-fade-in delay-200 text-center text-base md:text-lg max-w-md mt-4 text-slate-400 leading-relaxed">
-        Create, customize and publish websites faster than ever with Nexio's AI
-        Site Builder.
+        {t("home.subheadline")}
       </p>
 
       {/* ── Prompt form ── */}
@@ -128,13 +118,17 @@ function Home() {
               text-[15px] leading-relaxed
             "
             rows={4}
-            placeholder="Describe the website you want to build…"
+            placeholder={t("home.placeholder")}
             required
           />
           <div className="flex items-center justify-between mt-2">
             {/* Prompt hints */}
             <div className="hidden sm:flex items-center gap-2">
-              {["Landing page", "Portfolio", "SaaS app"].map((hint) => (
+              {[
+                t("home.hintLanding"),
+                t("home.hintPortfolio"),
+                t("home.hintSaas"),
+              ].map((hint) => (
                 <button
                   key={hint}
                   type="button"
@@ -171,11 +165,11 @@ function Home() {
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M8 1.5L9.2 7L14.5 8L9.2 9L8 14.5L6.8 9L1.5 8L6.8 7Z" fill="currentColor"/>
                   </svg>
-                  Create with AI
+                  {t("home.createButton")}
                 </>
               ) : (
                 <>
-                  Creating
+                  {t("home.creating")}
                   <Loader2Icon className="animate-spin size-4 text-white" />
                 </>
               )}
@@ -184,10 +178,10 @@ function Home() {
         </div>
       </form>
 
-      {/* ── Social proof / trusted by ── */}
+      {/* ── Social proof ── */}
       <div className="animate-fade-in delay-400 mt-20 flex flex-col items-center gap-6">
         <p className="text-xs uppercase tracking-[0.18em] text-slate-600 font-medium">
-          Trusted by teams at
+          {t("home.trustedBy")}
         </p>
         <div className="flex flex-wrap items-center justify-center gap-10 md:gap-14">
           {[

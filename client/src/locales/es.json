@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "myProjects": "Mis Proyectos",
+    "community": "Comunidad",
+    "pricing": "Planes",
+    "getStarted": "Empezar ahora",
+    "credits": "Créditos"
+  },
+  "home": {
+    "badge": "Nuevo",
+    "badgeText": "Prueba 30 días gratis",
+    "headline": "Convierte ideas en sitios web al instante, con IA.",
+    "subheadline": "Crea, personaliza y publica sitios web más rápido que nunca con Nexio AI Site Builder.",
+    "placeholder": "Describe el sitio web que quieres crear…",
+    "hintLanding": "Landing page",
+    "hintPortfolio": "Portafolio",
+    "hintSaas": "App SaaS",
+    "createButton": "Crear con IA",
+    "creating": "Creando",
+    "trustedBy": "Utilizado por equipos en",
+    "errorSignIn": "Inicia sesión para crear un proyecto",
+    "errorEmpty": "Por favor describe el sitio que deseas crear"
+  },
+  "pricing": {
+    "title": "Elige tu Plan",
+    "subtitle": "Empieza gratis y escala a medida que creces. Encuentra el plan perfecto para tus necesidades.",
+    "credits": "créditos",
+    "buyNow": "Comprar Ahora",
+    "notice": "Crear o revisar un proyecto consume <bold>5 créditos</bold>. Compra más créditos para seguir creando.",
+    "errorLogin": "Inicia sesión para adquirir créditos"
+  },
+  "myProjects": {
+    "title": "Mis Proyectos",
+    "createNew": "Crear Nuevo",
+    "noPreview": "Sin Vista Previa",
+    "website": "Sitio Web",
+    "preview": "Vista Previa",
+    "open": "Abrir",
+    "empty": "¡Aún no tienes proyectos!",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar este proyecto?",
+    "loginRequired": "Inicia sesión para ver tus proyectos"
+  },
+  "community": {
+    "title": "Proyectos Publicados",
+    "noPreview": "Sin Vista Previa",
+    "website": "Sitio Web",
+    "empty": "¡Aún no hay proyectos publicados!"
+  },
+  "builder": {
+    "previewingVersion": "Visualizando última versión guardada",
+    "save": "Guardar",
+    "preview": "Vista Previa",
+    "download": "Descargar",
+    "publish": "Publicar",
+    "unpublish": "Despublicar",
+    "unableToLoad": "¡No se pudo cargar el proyecto!",
+    "loginRequired": "Inicia sesión para ver tus proyectos"
+  },
+  "sidebar": {
+    "codeUpdated": "código actualizado",
+    "currentVersion": "Versión actual",
+    "rollback": "Volver a esta versión",
+    "confirmRollback": "¿Estás seguro de que deseas volver a esta versión?",
+    "inputPlaceholder": "Describe tu sitio web o solicita cambios..."
+  },
+  "editor": {
+    "title": "Editar Elemento",
+    "textContent": "Contenido de Texto",
+    "className": "Clase CSS",
+    "padding": "Relleno",
+    "margin": "Margen",
+    "fontSize": "Tamaño de fuente",
+    "background": "Fondo",
+    "textColor": "Color de texto"
+  },
+  "loader": {
+    "step1": "Analizando tu solicitud...",
+    "step2": "Generando estructura de diseño...",
+    "step3": "Ensamblando componentes visuales...",
+    "step4": "Finalizando tu sitio web...",
+    "takesTime": "Esto puede tardar alrededor de 2-3 minutos..."
+  },
+  "footer": {
+    "copyright": "Copyright © 2025 Nexio - Daniel Queiroz"
+  }
+}

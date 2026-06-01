@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import type { Project } from "../types";
+import { useTranslation } from "react-i18next";
 import {
   ArrowBigDownDashIcon,
   EyeIcon,
@@ -14,11 +15,6 @@ import {
   TabletIcon,
   XIcon,
 } from "lucide-react";
-import {
-  dummyConversations,
-  dummyProjects,
-  dummyVersion,
-} from "../assets/assets";
 import Sidebar from "../components/Sidebar";
 import ProjectPreview, {
   type ProjectPreviewRef,
@@ -44,6 +40,7 @@ function Projects() {
   const [isSaving, setIsSaving] = useState(false);
 
   const previewRef = useRef<ProjectPreviewRef>(null);
+  const { t } = useTranslation();
 
   const fetchProject = async () => {
     try {
@@ -121,7 +118,7 @@ function Projects() {
       fetchProject();
     } else if (!isPending && !session?.user) {
       navigate("/");
-      toast("Please login to view your projects");
+      toast(t("builder.loginRequired"));
     }
   }, [session?.user]);
 
@@ -158,7 +155,7 @@ function Projects() {
               {project.name}
             </p>
             <p className="text-xs text-gray-400 -mt-0.5">
-              Previewing last saved version
+              {t("builder.previewingVersion")}
             </p>
           </div>
           <div className="sm:hidden flex-1 flex justify-end">
@@ -202,7 +199,7 @@ function Projects() {
             ) : (
               <SaveIcon size={16} />
             )}
-            Save
+            {t("builder.save")}
           </button>
           <Link
             target="_blank"
@@ -210,14 +207,14 @@ function Projects() {
             className="flex items-center gap-2 px-4 py-1 rounded sm:rounded-sm border border-gray-700 hover:border-gray-500 transition-colors"
           >
             <FullscreenIcon size={16} />
-            Preview
+            {t("builder.preview")}
           </Link>
           <button
             onClick={downloadCode}
             className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
           >
             <ArrowBigDownDashIcon size={16} />
-            Download
+            {t("builder.download")}
           </button>
           <button
             onClick={togglePublish}
@@ -228,7 +225,7 @@ function Projects() {
             ) : (
               <EyeIcon size={16} />
             )}
-            {project.isPublished ? "Unpublish" : "Publish"}
+            {project.isPublished ? t("builder.unpublish") : t("builder.publish")}
           </button>
         </div>
       </div>
@@ -253,7 +250,7 @@ function Projects() {
   ) : (
     <div className="flex items-center justify-center h-screen">
       <p className="text-2xl font-medium text-gray-200">
-        Unable to load project!
+        {t("builder.unableToLoad")}
       </p>
     </div>
   );
