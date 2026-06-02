@@ -47,7 +47,7 @@
     "faqTitle": "Preguntas frecuentes",
     "faqs": [
       { "q": "¿Necesito saber programar?", "a": "No. Solo describe lo que quieres en texto. La IA se encarga del código." },
-      { "q": "¿El sitio se aloja aquí?", "a": "No. Descargas el HTML y lo publicas donde prefieras — o en la comunidad Nexio gratuitamente." },
+      { "q": "¿El sitio se aloja aquí?", "a": "Puedes publicarlo en la comunidad Nexio gratis con un clic. Para alojarlo en tu propio dominio, descarga el HTML y arrastra el archivo a Netlify.com (gratuito) — tu sitio estará online en menos de 1 minuto. Próximamente una guía paso a paso." },
       { "q": "¿Los créditos vencen?", "a": "No. Tus créditos permanecen en tu cuenta hasta que los uses. Sin fecha de vencimiento." },
       { "q": "¿Puedo editar el sitio después de generarlo?", "a": "Sí. Pide cualquier cambio por el chat de IA, o usa el editor visual para ajustar textos y colores directamente." },
       { "q": "¿Cuántos sitios puedo crear?", "a": "Cada creación o revisión cuesta 5 créditos. Con el plan Starter (100 créditos) puedes crear hasta 20 sitios." },

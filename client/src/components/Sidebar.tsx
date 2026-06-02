@@ -29,7 +29,7 @@ const Sidebar = ({
 }: SidebarProps) => {
   const messageRef = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const fetchProject = async () => {
     try {
@@ -68,6 +68,7 @@ const Sidebar = ({
       }, 10000);
       const { data } = await api.post(`/api/project/revision/${project.id}`, {
         message: input,
+        lang: i18n.language,
       });
       fetchProject();
       toast.success(data.message);

@@ -129,6 +129,7 @@ function Home() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const { i18n } = useTranslation();
   const [input, setInput] = React.useState("");
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState<{ code: string; prompt: string } | null>(null);
@@ -139,7 +140,7 @@ function Home() {
       if (!session?.user) return toast.error(t("home.errorSignIn"));
       if (!input.trim()) return toast.error(t("home.errorEmpty"));
       setLoading(true);
-      const { data } = await api.post("/api/user/project", { initial_prompt: input });
+      const { data } = await api.post("/api/user/project", { initial_prompt: input, lang: i18n.language });
       setLoading(false);
       navigate(`/projects/${data.projectId}`);
     } catch (error: any) {

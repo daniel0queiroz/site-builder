@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma.js";
-import openai from "../configs/openai.js";
+import openai, { AI_MODEL } from "../configs/openai.js";
 
 // Controller Function to Make Revision
 export const makeRevision = async (req: Request, res: Response) => {
@@ -9,7 +9,7 @@ export const makeRevision = async (req: Request, res: Response) => {
   try {
     const { projectId } = req.params;
 
-    const { message } = req.body;
+    const { message, lang = "en" } = req.body;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -54,7 +54,7 @@ export const makeRevision = async (req: Request, res: Response) => {
 
     // Enhance user prompt
     const promptEnhanceResponse = await openai.chat.completions.create({
-      model: "poolside/laguna-m.1:free",
+      model: AI_MODEL,
       messages: [
         {
           role: "system",
@@ -80,7 +80,11 @@ Return ONLY the enhanced request, nothing else. Keep it concise (1-2 sentences).
     await prisma.conversation.create({
       data: {
         role: "assistant",
-        content: `I've enhanced your prompt to: "${enhancedPrompt}"`,
+        content: lang === "pt-BR"
+          ? `Melhorei seu pedido para: "${enhancedPrompt}"`
+          : lang === "es"
+          ? `Mejoré tu solicitud a: "${enhancedPrompt}"`
+          : `I've enhanced your prompt to: "${enhancedPrompt}"`,
         projectId,
       },
     });
@@ -88,26 +92,36 @@ Return ONLY the enhanced request, nothing else. Keep it concise (1-2 sentences).
     await prisma.conversation.create({
       data: {
         role: "assistant",
-        content: "Now making changes to your website...",
+        content: lang === "pt-BR"
+          ? "Aplicando as alterações no seu site..."
+          : lang === "es"
+          ? "Aplicando los cambios en tu sitio web..."
+          : "Now making changes to your website...",
         projectId,
       },
     });
 
     // Generate website code
     const codeGenerationResponse = await openai.chat.completions.create({
-      model: "poolside/laguna-m.1:free",
+      model: AI_MODEL,
       messages: [
         {
           role: "system",
-          content: `You are an expert web developer. 
+          content: `You are an expert web developer.
 
     CRITICAL REQUIREMENTS:
     - Return ONLY the complete updated HTML code with the requested changes.
     - Use Tailwind CSS for ALL styling (NO custom CSS).
     - Use Tailwind utility classes for all styling changes.
-    - Include all JavaScript in <script> tags before closing </body>
-    - Make sure it's a complete, standalone HTML document with Tailwind CSS
-    - Return the HTML Code Only, nothing else
+    - Include all JavaScript in <script> tags before closing </body>.
+    - Make sure it's a complete, standalone HTML document with Tailwind CSS.
+    - Return the HTML Code Only, nothing else.
+
+    SEO REQUIREMENTS — preserve and update as needed:
+    - Keep all existing SEO tags (<title>, meta description, Open Graph, Twitter Card, JSON-LD).
+    - If the requested changes affect the page content or purpose, update <title>, meta description, og:title, og:description and JSON-LD accordingly.
+    - If the original HTML is missing any of these SEO tags, add them based on the page content.
+    - Keep descriptive alt attributes on all <img> tags.
 
     Apply the requested changes while maintaining the Tailwind CSS styling approach.`,
         },
@@ -118,31 +132,32 @@ Return ONLY the enhanced request, nothing else. Keep it concise (1-2 sentences).
       ],
     });
 
-    const code = codeGenerationResponse.choices[0].message.content || "";
+    const rawCode = codeGenerationResponse.choices[0].message.content || "";
+    const code = rawCode.replace(/```[a-z]*\n?/gi, "").replace(/```$/g, "").trim();
+    const isValidHTML = code.includes("<html") || code.includes("<!DOCTYPE");
 
-    if (!code) {
+    if (!code || !isValidHTML) {
       await prisma.conversation.create({
         data: {
           role: "assistant",
-          content: "Unable to generate the code, please try again",
+          content: lang === "pt-BR"
+            ? "Não foi possível gerar o código, tente novamente"
+            : lang === "es"
+            ? "No se pudo generar el código, inténtalo de nuevo"
+            : "Unable to generate the code, please try again",
           projectId,
         },
       });
       await prisma.user.update({
         where: { id: userId },
-        data: {
-          credits: { increment: 5 },
-        },
+        data: { credits: { increment: 5 } },
       });
       return;
     }
 
     const version = await prisma.version.create({
       data: {
-        code: code
-          .replace(/```[a-z]*\n?/gi, "")
-          .replace(/```$/g, "")
-          .trim(),
+        code,
         description: "changes made",
         projectId,
       },
@@ -152,7 +167,11 @@ Return ONLY the enhanced request, nothing else. Keep it concise (1-2 sentences).
       data: {
         role: "assistant",
         content:
-          "I've made the changes to your website! You can now preview it",
+          lang === "pt-BR"
+            ? "Alterações aplicadas! Visualize o resultado e continue editando quando quiser."
+            : lang === "es"
+            ? "¡Cambios aplicados! Previsualiza el resultado y sigue editando cuando quieras."
+            : "I've made the changes to your website! You can now preview it",
         projectId,
       },
     });
@@ -160,10 +179,7 @@ Return ONLY the enhanced request, nothing else. Keep it concise (1-2 sentences).
     await prisma.websiteProject.update({
       where: { id: projectId },
       data: {
-        current_code: code
-          .replace(/```[a-z]*\n?/gi, "")
-          .replace(/```$/g, "")
-          .trim(),
+        current_code: code,
         current_version_index: version.id,
       },
     });

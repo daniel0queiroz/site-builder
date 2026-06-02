@@ -47,7 +47,7 @@
     "faqTitle": "Frequently asked questions",
     "faqs": [
       { "q": "Do I need to know how to code?", "a": "No. Just describe what you want in plain text. The AI handles all the code." },
-      { "q": "Is the site hosted here?", "a": "No. You download the HTML and publish it anywhere you like — or publish it to the Nexio community for free." },
+      { "q": "Is the site hosted here?", "a": "You can publish to the Nexio community for free with one click. To host on your own domain, download the HTML and drag the file to Netlify.com (free) — your site will be live in under a minute. A step-by-step publishing guide is coming soon." },
       { "q": "Do credits expire?", "a": "No. Your credits stay in your account until you use them. No expiry date." },
       { "q": "Can I edit the site after it's generated?", "a": "Yes. Ask for any changes via the AI chat, or use the visual editor to adjust text and colors directly." },
       { "q": "How many sites can I create?", "a": "Each creation or revision costs 5 credits. With the Starter pack (100 credits) you can create up to 20 sites." },

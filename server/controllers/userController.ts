@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma.js";
-import openai from "../configs/openai.js";
+import openai, { AI_MODEL } from "../configs/openai.js";
 import Stripe from "stripe";
 
 // Get User Credits
@@ -29,7 +29,7 @@ export const createUserProject = async (req: Request, res: Response) => {
   let project: Awaited<ReturnType<typeof prisma.websiteProject.create>> | null =
     null;
   try {
-    const { initial_prompt } = req.body;
+    const { initial_prompt, lang = "en" } = req.body;
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
@@ -78,9 +78,11 @@ export const createUserProject = async (req: Request, res: Response) => {
 
     res.json({ projectId: project.id });
 
+    const uiLang = lang === "pt-BR" ? "Brazilian Portuguese" : lang === "es" ? "Spanish" : "English";
+
     // Enhance user prompt
     const promptEnhanceResponse = await openai.chat.completions.create({
-      model: "poolside/laguna-m.1:free",
+      model: AI_MODEL,
       messages: [
         {
           role: "system",
@@ -107,7 +109,11 @@ export const createUserProject = async (req: Request, res: Response) => {
     await prisma.conversation.create({
       data: {
         role: "assistant",
-        content: `I've enhanced your prompt to: "${enhancedPrompt}"`,
+        content: lang === "pt-BR"
+          ? `Melhorei seu prompt para: "${enhancedPrompt}"`
+          : lang === "es"
+          ? `Mejoré tu prompt a: "${enhancedPrompt}"`
+          : `I've enhanced your prompt to: "${enhancedPrompt}"`,
         projectId: project.id,
       },
     });
@@ -115,7 +121,11 @@ export const createUserProject = async (req: Request, res: Response) => {
     await prisma.conversation.create({
       data: {
         role: "assistant",
-        content: `now generating your website..."`,
+        content: lang === "pt-BR"
+          ? "Gerando seu site..."
+          : lang === "es"
+          ? "Generando tu sitio web..."
+          : "Generating your website...",
         projectId: project.id,
       },
     });
@@ -123,34 +133,29 @@ export const createUserProject = async (req: Request, res: Response) => {
     // Generate website code
 
     const codeGenerationResponse = await openai.chat.completions.create({
-      model: "poolside/laguna-m.1:free",
+      model: AI_MODEL,
       messages: [
         {
           role: "system",
-          content: `You are an expert web developer. Create a complete, production-ready, single-page website based on this request: "${enhancedPrompt}"
+          content: `You are an expert web developer. Output ONLY a complete HTML document. No explanations, no markdown, no code fences — raw HTML only.
 
-    CRITICAL REQUIREMENTS:
-    - You MUST output valid HTML ONLY. 
-    - Use Tailwind CSS for ALL styling
-    - Include this EXACT script in the <head>: <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    - Use Tailwind utility classes extensively for styling, animations, and responsiveness
-    - Make it fully functional and interactive with JavaScript in <script> tag before closing </body>
-    - Use modern, beautiful design with great UX using Tailwind classes
-    - Make it responsive using Tailwind responsive classes (sm:, md:, lg:, xl:)
-    - Use Tailwind animations and transitions (animate-*, transition-*)
-    - Include all necessary meta tags
-    - Use Google Fonts CDN if needed for custom fonts
-    - Use placeholder images from https://placehold.co/600x400
-    - Use Tailwind gradient classes for beautiful backgrounds
-    - Make sure all buttons, cards, and components use Tailwind styling
+Build a responsive, beautiful single-page website for: "${enhancedPrompt}"
 
-    CRITICAL HARD RULES:
-    1. You MUST put ALL output ONLY into message.content.
-    2. You MUST NOT place anything in "reasoning", "analysis", "reasoning_details", or any hidden fields.
-    3. You MUST NOT include internal thoughts, explanations, analysis, comments, or markdown.
-    4. Do NOT include markdown, explanations, notes, or code fences.
+TECHNICAL STACK:
+- Tailwind CSS via <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> in <head>
+- Interactive JS in <script> before </body>
+- Google Fonts CDN if needed
+- Placeholder images: https://placehold.co/600x400 with descriptive alt text
 
-    The HTML should be complete and ready to render as-is with Tailwind CSS.`,
+SEO — include all of these in <head>:
+- <title> (50-60 chars, business name)
+- <meta name="description" content="..."> (150-160 chars)
+- <meta property="og:title">, <meta property="og:description">, <meta property="og:type" content="website">, <meta property="og:image" content="https://placehold.co/1200x630">
+- <meta name="twitter:card" content="summary_large_image">, <meta name="twitter:title">, <meta name="twitter:description">
+- <link rel="canonical" href="#">
+- <script type="application/ld+json"> with WebPage schema (or LocalBusiness for stores/restaurants/clinics, or Person for portfolios)
+
+OUTPUT RULE: first character must be < and last character must be >.`,
         },
         {
           role: "user",
@@ -159,21 +164,26 @@ export const createUserProject = async (req: Request, res: Response) => {
       ],
     });
 
-    const code = codeGenerationResponse.choices[0].message.content || "";
+    const rawCode = codeGenerationResponse.choices[0].message.content || "";
+    const code = rawCode.replace(/```[a-z]*\n?/gi, "").replace(/```$/g, "").trim();
 
-    if (!code) {
+    const isValidHTML = code.includes("<html") || code.includes("<!DOCTYPE");
+
+    if (!code || !isValidHTML) {
       await prisma.conversation.create({
         data: {
           role: "assistant",
-          content: "Unable to generate the code, please try again",
+          content: lang === "pt-BR"
+            ? "Não foi possível gerar o código, tente novamente"
+            : lang === "es"
+            ? "No se pudo generar el código, inténtalo de nuevo"
+            : "Unable to generate the code, please try again",
           projectId: project.id,
         },
       });
       await prisma.user.update({
         where: { id: userId },
-        data: {
-          credits: { increment: 5 },
-        },
+        data: { credits: { increment: 5 } },
       });
       return;
     }
@@ -181,10 +191,7 @@ export const createUserProject = async (req: Request, res: Response) => {
     // Create Version for the project
     const version = await prisma.version.create({
       data: {
-        code: code
-          .replace(/```[a-z]*\n?/gi, "")
-          .replace(/```$/g, "")
-          .trim(),
+        code,
         description: "Initial version",
         projectId: project.id,
       },
@@ -194,7 +201,11 @@ export const createUserProject = async (req: Request, res: Response) => {
       data: {
         role: "assistant",
         content:
-          "I've created your website! You can now preview it and request any changes.",
+          lang === "pt-BR"
+            ? "Seu site foi criado! Visualize o resultado e peça alterações quando quiser."
+            : lang === "es"
+            ? "¡Tu sitio web fue creado! Previsualízalo y solicita cambios cuando quieras."
+            : "I've created your website! You can now preview it and request any changes.",
         projectId: project.id,
       },
     });
@@ -202,10 +213,7 @@ export const createUserProject = async (req: Request, res: Response) => {
     await prisma.websiteProject.update({
       where: { id: project.id },
       data: {
-        current_code: code
-          .replace(/```[a-z]*\n?/gi, "")
-          .replace(/```$/g, "")
-          .trim(),
+        current_code: code,
         current_version_index: version.id,
       },
     });
@@ -226,7 +234,11 @@ export const createUserProject = async (req: Request, res: Response) => {
           data: {
             role: "assistant",
             content:
-              "Sorry, I encountered an error while generating your website. Please try again.",
+              lang === "pt-BR"
+                ? "Ocorreu um erro ao gerar seu site. Por favor, tente novamente."
+                : lang === "es"
+                ? "Ocurrió un error al generar tu sitio web. Por favor, inténtalo de nuevo."
+                : "Sorry, I encountered an error while generating your website. Please try again.",
             projectId: project.id,
           },
         });

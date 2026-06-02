@@ -2,6 +2,12 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import type { Project } from "../types";
 import { useTranslation } from "react-i18next";
+
+const LANGUAGES = [
+  { code: "en",    label: "EN" },
+  { code: "pt-BR", label: "PT" },
+  { code: "es",    label: "ES" },
+];
 import {
   ArrowBigDownDashIcon,
   EyeIcon,
@@ -40,7 +46,7 @@ function Projects() {
   const [isSaving, setIsSaving] = useState(false);
 
   const previewRef = useRef<ProjectPreviewRef>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const fetchProject = async () => {
     try {
@@ -189,6 +195,19 @@ function Projects() {
         </div>
         {/* right */}
         <div className="flex items-center justify-end gap-3 flex-1 text-xs sm:text-sm">
+          {/* Language switcher */}
+          <div className="hidden sm:flex items-center gap-0.5 bg-white/[0.06] border border-white/[0.12] rounded-lg p-0.5">
+            {LANGUAGES.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => i18n.changeLanguage(lang.code)}
+                className={`w-7 text-[10px] font-bold py-0.5 rounded-md transition-all duration-200
+                  ${i18n.language === lang.code ? "bg-blue-600 text-white" : "text-slate-400 hover:text-slate-200 hover:bg-white/10"}`}
+              >
+                {lang.label}
+              </button>
+            ))}
+          </div>
           <button
             onClick={saveProject}
             disabled={isSaving}
